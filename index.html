@@ -46,7 +46,7 @@
         </section>
 
         <section id="om-oss" class="about section-wrap" aria-labelledby="about-title">
-          <div class="section-kicker"><span>01</span><span>Om orkestern</span></div>
+          <div class="section-kicker">Om orkestern</div>
           <div class="about-copy">
             <h2 id="about-title">Ett stycke Enköping<br />sedan 1937.</h2>
             <div class="about-description">
@@ -59,7 +59,7 @@
 
         <section id="nyheter" class="news-section" aria-labelledby="news-title">
           <div class="section-wrap">
-            <div class="section-kicker"><span>02</span><span>Senaste nytt</span></div>
+            <div class="section-kicker">Senaste nytt</div>
             <div class="news-heading">
               <h2 id="news-title">Från orkestern</h2>
               <p>Konserter, möten och annat som händer.</p>
@@ -70,7 +70,6 @@
             <p v-else-if="news.length === 0" class="news-state">Här kommer snart nytt från orkestern.</p>
             <div v-else class="news-list">
               <article v-for="(item, index) in news" :key="item.date + item.title" class="news-item">
-                <span class="news-index">{{ String(index + 1).padStart(2, '0') }}</span>
                 <div class="news-item-copy">
                   <time class="news-date" :datetime="item.date">{{ formatDate(item.date) }}</time>
                   <h3>{{ item.title }}</h3>
