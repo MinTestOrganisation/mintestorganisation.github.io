@@ -10,7 +10,7 @@
     <p v-else-if="newsError" class="news-state">Nyheterna kunde inte hämtas just nu.</p>
     <p v-else-if="news.length === 0" class="news-state">Här kommer snart nytt från orkestern.</p>
     <div v-else class="news-list">
-      <article v-for="(item, index) in news" :key="item.datetime + item.title" class="news-item">
+      <article v-for="(item, index) in paginatedNews" :key="item.datetime + item.title" class="news-item">
         <div class="news-item-copy">
           <time class="news-date" :datetime="item.datetime">{{ formatDate(item.datetime) }}</time>
           <h3>{{ item.title }}</h3>
@@ -31,5 +31,14 @@
         </button>
       </article>
     </div>
+    <nav v-if="totalPages > 1" class="news-pagination" aria-label="Sidnavigering för nyheter">
+      <button type="button" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
+        <span aria-hidden="true">←</span> Föregående
+      </button>
+      <span aria-live="polite">Sida {{ currentPage }} av {{ totalPages }}</span>
+      <button type="button" :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">
+        Nästa <span aria-hidden="true">→</span>
+      </button>
+    </nav>
   </div>
 </section>

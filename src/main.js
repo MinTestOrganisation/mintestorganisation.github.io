@@ -1,4 +1,4 @@
-const { createApp, onMounted, ref } = Vue;
+const { computed, createApp, onMounted, ref } = Vue;
 
 const sections = [
   { slot: 'news-slot', file: './news.html' },
@@ -42,6 +42,18 @@ async function mountSite() {
       const loading = ref(true);
       const newsError = ref(false);
       const expandedNews = ref(null);
+      const currentPage = ref(1);
+      const pageSize = 10;
+      const totalPages = computed(() => Math.ceil(news.value.length / pageSize));
+      const paginatedNews = computed(() => {
+        const start = (currentPage.value - 1) * pageSize;
+        return news.value.slice(start, start + pageSize);
+      });
+
+      const goToPage = (page) => {
+        currentPage.value = page;
+        expandedNews.value = null;
+      };
 
       const articleText = (item) => (item.body || []).filter(Boolean).join(' ');
       const previewText = (item) => {
@@ -77,7 +89,19 @@ async function mountSite() {
         }
       });
 
-      return { news, loading, newsError, expandedNews, formatDate, previewText, hasMore };
+      return {
+        news,
+        loading,
+        newsError,
+        expandedNews,
+        currentPage,
+        totalPages,
+        paginatedNews,
+        goToPage,
+        formatDate,
+        previewText,
+        hasMore,
+      };
     },
   }).mount('#app');
 }

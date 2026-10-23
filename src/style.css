@@ -119,6 +119,10 @@ h1, h2, h3, p { margin-top: 0; }
 .news-toggle[aria-expanded="true"] .news-chevron { margin-top: 4px; transform: rotate(225deg); }
 .news-toggle:hover, .news-toggle:focus-visible { color: white; background: var(--forest); }
 .news-state { padding: 24px 0; border-top: 1px solid #d3d1c7; color: var(--muted); font-size: 14px; }
+.news-pagination { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 24px; color: var(--muted); font-size: 12px; }
+.news-pagination button { display: inline-flex; align-items: center; gap: 8px; padding: 8px 0; border: 0; color: var(--forest); background: transparent; cursor: pointer; font-size: 12px; font-weight: 700; }
+.news-pagination button:disabled { color: #a3a398; cursor: default; }
+.news-pagination button:not(:disabled):hover { color: var(--accent); }
 
 .site-footer { display: flex; min-height: 112px; align-items: center; justify-content: space-between; gap: 20px; padding: 24px clamp(24px, 7.5vw, 112px); background: var(--forest); color: white; }
 .footer-brand .brand-mark, .footer-brand .brand-name { color: white; }
