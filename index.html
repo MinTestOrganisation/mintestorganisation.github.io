@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#173b32" />
+    <meta
+      name="description"
+      content="Enköpings blåsorkester har spelat musik för Enköping sedan 1937. Välkommen att upptäcka vår orkester och våra kommande evenemang."
+    />
+    <title>Enköpings blåsorkester</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./src/style.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script type="module" src="./src/main.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="Enköpings blåsorkester, till toppen">
+          <span class="brand-mark" aria-hidden="true">E<span>B</span></span>
+          <span class="brand-name">Enköpings<br />blåsorkester</span>
+        </a>
+        <nav class="main-nav" aria-label="Huvudmeny">
+          <a href="#om-oss">Om oss</a>
+          <a href="#nyheter">Nyheter</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <img class="hero-image" src="./public/orkester.jpg" alt="Enköpings blåsorkester samlad för fotografering" />
+          <div class="hero-shade"></div>
+          <div class="hero-content">
+            <p class="eyebrow hero-eyebrow">Enköping · grundad 1937</p>
+            <h1 id="hero-title">Musik som<br />samlar generationer.</h1>
+            <p class="hero-intro">En blåsorkester med tradition, spelglädje och plats för många toner.</p>
+            <a class="hero-link" href="#om-oss">Lär känna oss <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="hero-caption">Enköpings blåsorkester</p>
+        </section>
+
+        <section id="om-oss" class="about section-wrap" aria-labelledby="about-title">
+          <div class="section-kicker"><span>01</span><span>Om orkestern</span></div>
+          <div class="about-copy">
+            <h2 id="about-title">Ett stycke Enköping<br />sedan 1937.</h2>
+            <div class="about-description">
+              <p>Enköpings blåsorkester har funnits sedan 1937 i varierande konstellationer. Numera är det en blåsorkester som spelar en varierad repertoar, allt från marscher till opera- och dansmusik.</p>
+              <p>Med Sebastian Heurlin Fernold som kompetent och inspirerande ledare fortsätter vi att fylla Enköping med musik.</p>
+            </div>
+          </div>
+          <div class="about-rule"><span>Tradition</span><span>Gemenskap</span><span>Spelglädje</span></div>
+        </section>
+
+        <section id="nyheter" class="news-section" aria-labelledby="news-title">
+          <div class="section-wrap">
+            <div class="section-kicker"><span>02</span><span>Senaste nytt</span></div>
+            <div class="news-heading">
+              <h2 id="news-title">Från orkestern</h2>
+              <p>Konserter, möten och annat som händer.</p>
+            </div>
+
+            <p v-if="loading" class="news-state">Hämtar senaste nytt ...</p>
+            <p v-else-if="newsError" class="news-state">Nyheterna kunde inte hämtas just nu.</p>
+            <p v-else-if="news.length === 0" class="news-state">Här kommer snart nytt från orkestern.</p>
+            <div v-else class="news-list">
+              <article v-for="(item, index) in news" :key="item.date + item.title" class="news-item">
+                <span class="news-index">{{ String(index + 1).padStart(2, '0') }}</span>
+                <div class="news-item-copy">
+                  <time class="news-date" :datetime="item.date">{{ formatDate(item.date) }}</time>
+                  <h3>{{ item.title }}</h3>
+                  <p class="news-summary">{{ item.summary }}</p>
+                  <div v-if="expandedNews === index" class="news-body">
+                    <p v-for="(paragraph, paragraphIndex) in item.body" :key="paragraphIndex">{{ paragraph }}</p>
+                  </div>
+                </div>
+                <button
+                  v-if="item.body && item.body.length"
+                  class="news-toggle"
+                  type="button"
+                  :aria-expanded="expandedNews === index"
+                  :aria-label="expandedNews === index ? 'Visa mindre: ' + item.title : 'Läs mer: ' + item.title"
+                  @click="expandedNews = expandedNews === index ? null : index"
+                >
+                  <span aria-hidden="true">{{ expandedNews === index ? '−' : '+' }}</span>
+                </button>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <a class="brand footer-brand" href="#top">
+          <span class="brand-mark" aria-hidden="true">E<span>B</span></span>
+          <span class="brand-name">Enköpings<br />blåsorkester</span>
+        </a>
+        <span class="footer-note">Musik i Enköping sedan 1937</span>
+        <a class="back-to-top" href="#top">Till toppen <span aria-hidden="true">↑</span></a>
+      </footer>
+    </div>
+  </body>
+</html>
