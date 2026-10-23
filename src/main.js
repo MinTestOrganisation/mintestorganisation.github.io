@@ -43,11 +43,18 @@ async function mountSite() {
       const newsError = ref(false);
       const expandedNews = ref(null);
 
-      const formatDate = (date) => new Intl.DateTimeFormat('sv-SE', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      }).format(new Date(`${date}T12:00:00`));
+      const articleText = (item) => (item.body || []).filter(Boolean).join(' ');
+      const previewText = (item) => {
+        const text = articleText(item);
+        return text.length > 180 ? `${text.slice(0, 180).trimEnd()}...` : text;
+      };
+      const hasMore = (item) => articleText(item).length > 180 || (item.body?.length || 0) > 1;
+
+      const formatDate = (datetime) => new Intl.DateTimeFormat('sv-SE', {
+        dateStyle: 'long',
+        timeStyle: 'short',
+        timeZone: 'Europe/Stockholm',
+      }).format(new Date(datetime));
 
       onMounted(async () => {
         try {
@@ -61,7 +68,7 @@ async function mountSite() {
             return response.json();
           }));
 
-          news.value = articles.sort((first, second) => second.date.localeCompare(first.date));
+          news.value = articles.sort((first, second) => new Date(second.datetime) - new Date(first.datetime));
         } catch (error) {
           newsError.value = true;
           console.error(error);
@@ -70,7 +77,7 @@ async function mountSite() {
         }
       });
 
-      return { news, loading, newsError, expandedNews, formatDate };
+      return { news, loading, newsError, expandedNews, formatDate, previewText, hasMore };
     },
   }).mount('#app');
 }

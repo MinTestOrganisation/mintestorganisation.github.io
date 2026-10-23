@@ -8,7 +8,7 @@ En statisk Vue 3-hemsida. Vue hämtas från CDN och webbplatsen kräver ingen np
 
 ## Nyheter
 
-Varje nyhet är en JSON-fil i `news/`. Kopiera `news/2026-10-23-valkommen.json`, ändra datum, rubrik, sammanfattning och brödtext, och lägg till filnamnet i `news/index.json`. Datum skrivs som `ÅÅÅÅ-MM-DD`; `body` är en lista med stycken.
+Varje nyhet är en JSON-fil i `news/`. Kopiera `news/2026-10-23-valkommen.json`, ändra `datetime`, rubrik och brödtext, och lägg till filnamnet i `news/index.json`. `datetime` skrivs i ISO 8601-format med tidszon, till exempel `2026-10-23T12:00:00+02:00`; `body` är en lista med stycken.
 
 ## GitHub Pages
 

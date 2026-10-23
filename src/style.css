@@ -114,7 +114,9 @@ h1, h2, h3, p { margin-top: 0; }
 .news-summary, .news-body { max-width: 650px; margin-bottom: 0; color: #595c54; font-size: 13px; line-height: 1.7; }
 .news-body { margin-top: 14px; }
 .news-body p { margin-bottom: 10px; }
-.news-toggle { width: 38px; height: 38px; border: 1px solid #c7c5bb; border-radius: 50%; color: var(--forest); background: transparent; cursor: pointer; font-size: 22px; line-height: 1; transition: background 160ms ease, color 160ms ease; }
+.news-toggle { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid #c7c5bb; border-radius: 50%; color: var(--forest); background: transparent; cursor: pointer; transition: background 160ms ease, color 160ms ease; }
+.news-chevron { width: 8px; height: 8px; margin-top: -4px; transform: rotate(45deg); border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transition: transform 180ms ease; }
+.news-toggle[aria-expanded="true"] .news-chevron { margin-top: 4px; transform: rotate(225deg); }
 .news-toggle:hover, .news-toggle:focus-visible { color: white; background: var(--forest); }
 .news-state { padding: 24px 0; border-top: 1px solid #d3d1c7; color: var(--muted); font-size: 14px; }
 

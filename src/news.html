@@ -10,24 +10,24 @@
     <p v-else-if="newsError" class="news-state">Nyheterna kunde inte hämtas just nu.</p>
     <p v-else-if="news.length === 0" class="news-state">Här kommer snart nytt från orkestern.</p>
     <div v-else class="news-list">
-      <article v-for="(item, index) in news" :key="item.date + item.title" class="news-item">
+      <article v-for="(item, index) in news" :key="item.datetime + item.title" class="news-item">
         <div class="news-item-copy">
-          <time class="news-date" :datetime="item.date">{{ formatDate(item.date) }}</time>
+          <time class="news-date" :datetime="item.datetime">{{ formatDate(item.datetime) }}</time>
           <h3>{{ item.title }}</h3>
-          <p class="news-summary">{{ item.summary }}</p>
-          <div v-if="expandedNews === index" class="news-body">
+          <p v-if="expandedNews !== index" class="news-summary">{{ previewText(item) }}</p>
+          <div v-else class="news-body">
             <p v-for="(paragraph, paragraphIndex) in item.body" :key="paragraphIndex">{{ paragraph }}</p>
           </div>
         </div>
         <button
-          v-if="item.body && item.body.length"
+          v-if="hasMore(item)"
           class="news-toggle"
           type="button"
           :aria-expanded="expandedNews === index"
           :aria-label="expandedNews === index ? 'Visa mindre: ' + item.title : 'Läs mer: ' + item.title"
           @click="expandedNews = expandedNews === index ? null : index"
         >
-          <span aria-hidden="true">{{ expandedNews === index ? '−' : '+' }}</span>
+          <span class="news-chevron" aria-hidden="true"></span>
         </button>
       </article>
     </div>
