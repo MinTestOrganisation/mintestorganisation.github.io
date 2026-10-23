@@ -1,0 +1,35 @@
+<section id="nyheter" class="news-section" aria-labelledby="news-title">
+  <div class="section-wrap">
+    <div class="section-kicker">Senaste nytt</div>
+    <div class="news-heading">
+      <h2 id="news-title">Från orkestern</h2>
+      <p>Konserter, möten och annat som händer.</p>
+    </div>
+
+    <p v-if="loading" class="news-state">Hämtar senaste nytt ...</p>
+    <p v-else-if="newsError" class="news-state">Nyheterna kunde inte hämtas just nu.</p>
+    <p v-else-if="news.length === 0" class="news-state">Här kommer snart nytt från orkestern.</p>
+    <div v-else class="news-list">
+      <article v-for="(item, index) in news" :key="item.date + item.title" class="news-item">
+        <div class="news-item-copy">
+          <time class="news-date" :datetime="item.date">{{ formatDate(item.date) }}</time>
+          <h3>{{ item.title }}</h3>
+          <p class="news-summary">{{ item.summary }}</p>
+          <div v-if="expandedNews === index" class="news-body">
+            <p v-for="(paragraph, paragraphIndex) in item.body" :key="paragraphIndex">{{ paragraph }}</p>
+          </div>
+        </div>
+        <button
+          v-if="item.body && item.body.length"
+          class="news-toggle"
+          type="button"
+          :aria-expanded="expandedNews === index"
+          :aria-label="expandedNews === index ? 'Visa mindre: ' + item.title : 'Läs mer: ' + item.title"
+          @click="expandedNews = expandedNews === index ? null : index"
+        >
+          <span aria-hidden="true">{{ expandedNews === index ? '−' : '+' }}</span>
+        </button>
+      </article>
+    </div>
+  </div>
+</section>
